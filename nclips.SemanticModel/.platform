@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "nclips"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4295b42c-dd40-4ec6-89b4-edb2072cdc00"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU08",
+      "reportVersionAtImport": {
+        "visual": "2.12.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom12880132904776542.json",
+      "reportVersionAtImport": {
+        "visual": "2.12.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "Fluent2-CY26SU08",
+          "path": "BaseThemes/Fluent2-CY26SU08.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Custom12880132904776542.json",
+          "path": "Custom12880132904776542.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "Teal_1920x1080_Page1_SALES43541816435940606.png",
+          "path": "Teal_1920x1080_Page1_SALES43541816435940606.png",
+          "type": "Image"
+        },
+        {
+          "name": "Teal_1920x1080_Page2_PERFORMAN7685564791799175.png",
+          "path": "Teal_1920x1080_Page2_PERFORMAN7685564791799175.png",
+          "type": "Image"
+        },
+        {
+          "name": "Teal_1920x1080_Page3_STUDENTS3899751558268115.png",
+          "path": "Teal_1920x1080_Page3_STUDENTS3899751558268115.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

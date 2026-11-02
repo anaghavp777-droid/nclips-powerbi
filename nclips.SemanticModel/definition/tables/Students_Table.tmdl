@@ -1,0 +1,67 @@
+table Students_Table
+	lineageTag: 795347a7-e3ae-4e7e-aa30-f5cdb8d1bcb4
+
+	column Student_ID
+		dataType: string
+		lineageTag: eac88e76-8c0c-49f3-ac8c-b245649639b2
+		summarizeBy: none
+		sourceColumn: Student_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Student_Name
+		dataType: string
+		lineageTag: 806149c4-cb89-4166-9b37-c93b65da5865
+		summarizeBy: none
+		sourceColumn: Student_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 88907bc6-1e19-4fdc-933f-afed5d42a834
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 91569589-dcbf-439b-a07e-76c8f6694320
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: string
+		lineageTag: e9c0e24f-ba89-4260-9877-42d8be059de7
+		summarizeBy: none
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+	column Signup_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c023ce8f-e0bf-4df9-b9f8-f4034dea6a7d
+		summarizeBy: none
+		sourceColumn: Signup_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Students_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+				    Students_Table_Table = Source{[Item="Students_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Students_Table_Table,{{"Student_ID", type text}, {"Student_Name", type text}, {"Country", type text}, {"Region", type text}, {"Plan", type text}, {"Signup_Date", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

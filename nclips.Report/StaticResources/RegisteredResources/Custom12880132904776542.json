@@ -1,0 +1,17 @@
+{
+  "name": "Custom",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "visualTooltip": [
+          {
+            "show": true
+          }
+        ],
+        "visualHeaderTooltip": [
+          {}
+        ]
+      }
+    }
+  }
+}

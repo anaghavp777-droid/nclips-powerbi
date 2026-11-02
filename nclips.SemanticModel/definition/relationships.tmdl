@@ -1,0 +1,21 @@
+relationship AutoDetected_4b58c62d-d6b3-4d15-8f47-fdf4479ab9a3
+	fromColumn: Payments_Table.Student_ID
+	toColumn: Students_Table.Student_ID
+
+relationship AutoDetected_d785ec14-809d-4fad-ac65-a55c752c09d0
+	fromColumn: Quiz_Results_Table.Student_ID
+	toColumn: Students_Table.Student_ID
+
+relationship 1beaf8b5-4d8c-fe84-0723-437265d697d9
+	fromColumn: Quiz_Results_Table.Quiz_Date
+	toColumn: Calendar_Table.Date
+
+relationship 1004ce36-3c59-adc6-65a0-7caa3c88bca0
+	fromColumn: Payments_Table.Payment_Date
+	toColumn: Calendar_Table.Date
+
+relationship d1c8b4e7-6626-ad21-7895-1674d0f91569
+	isActive: false
+	fromColumn: Students_Table.Signup_Date
+	toColumn: Calendar_Table.Date
+

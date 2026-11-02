@@ -1,0 +1,57 @@
+table Calendar_Table
+	lineageTag: 386d073d-3ba2-4631-9e37-f9a152c2b38b
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: General Date
+		lineageTag: fd8be986-d2c9-4333-b698-79809bf0a9d1
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 1dd7e135-61fc-4449-804a-d360df9642bd
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: string
+		lineageTag: 47cb2342-c0fb-4ed0-a457-ace46fb12957
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Month_No
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 885b5a36-0c48-4dfe-8d6f-c8f201a5f77f
+		summarizeBy: none
+		sourceColumn: Month_No
+
+		annotation SummarizationSetBy = User
+
+	partition Calendar_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+				    Calendar_Table_Table = Source{[Item="Calendar_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Calendar_Table_Table,{{"Date", type datetime}, {"Year", Int64.Type}, {"Month", type text}, {"Month_No", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

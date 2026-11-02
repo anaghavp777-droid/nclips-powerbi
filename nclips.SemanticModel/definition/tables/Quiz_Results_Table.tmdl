@@ -1,0 +1,85 @@
+table Quiz_Results_Table
+	lineageTag: b67472af-eaa9-4c42-92ea-4e04123fff7a
+
+	column Attempt_ID
+		dataType: string
+		lineageTag: f9d5f5e1-8c1c-44af-9f9f-ad85f29902f3
+		summarizeBy: none
+		sourceColumn: Attempt_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Student_ID
+		dataType: string
+		lineageTag: 6d05623c-2887-473f-b48f-11df2c845b52
+		summarizeBy: none
+		sourceColumn: Student_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quiz_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5df3f893-26ab-4252-8cb9-429a87250e7a
+		summarizeBy: none
+		sourceColumn: Quiz_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Topic
+		dataType: string
+		lineageTag: b8794688-3685-4497-9d4f-196cb0d41af6
+		summarizeBy: none
+		sourceColumn: Topic
+
+		annotation SummarizationSetBy = Automatic
+
+	column Question_Type
+		dataType: string
+		lineageTag: 11b90683-655f-498e-8e77-f799851b79d5
+		summarizeBy: none
+		sourceColumn: Question_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Questions_Attempted
+		dataType: int64
+		formatString: 0
+		lineageTag: c88be997-1e7b-4c8c-98ff-faa664904820
+		summarizeBy: sum
+		sourceColumn: Questions_Attempted
+
+		annotation SummarizationSetBy = Automatic
+
+	column Correct_Answers
+		dataType: int64
+		formatString: 0
+		lineageTag: f9338a4e-964b-42d3-be18-29ad6415a28d
+		summarizeBy: sum
+		sourceColumn: Correct_Answers
+
+		annotation SummarizationSetBy = Automatic
+
+	column Study_Minutes
+		dataType: int64
+		formatString: 0
+		lineageTag: ac540b30-839d-43c8-a6c2-5aa52e6c1f74
+		summarizeBy: sum
+		sourceColumn: Study_Minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Quiz_Results_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+				    Quiz_Results_Table_Table = Source{[Item="Quiz_Results_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Quiz_Results_Table_Table,{{"Attempt_ID", type text}, {"Student_ID", type text}, {"Quiz_Date", type datetime}, {"Topic", type text}, {"Question_Type", type text}, {"Questions_Attempted", Int64.Type}, {"Correct_Answers", Int64.Type}, {"Study_Minutes", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

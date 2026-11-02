@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "156adb9623c9cf122e91",
+  "displayName": "STUDENTS",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Teal_1920x1080_Page3_STUDENTS.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Teal_1920x1080_Page3_STUDENTS3899751558268115.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Normal'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "ca3c92900cd1806c7484",
+      "target": "06e8f360ca971aa2aa0a",
+      "type": "NoFilter"
+    },
+    {
+      "source": "ca3c92900cd1806c7484",
+      "target": "aebc4c1fb0b06ab01297",
+      "type": "NoFilter"
+    }
+  ]
+}

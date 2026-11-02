@@ -1,0 +1,179 @@
+table 'Calculated_Table (2)'
+	lineageTag: 5e725f2e-a0dc-4858-bfdc-2c38621a8b3c
+
+	measure total_revenue = SUM(Payments_Table[Amount])
+		formatString: 0
+		lineageTag: b3ff7022-029c-4df5-b081-32319953e423
+
+	measure 'Revenue LY' =
+			
+			VAR LY_Revenue =
+			    CALCULATE(
+			        [total_revenue],
+			        SAMEPERIODLASTYEAR('Calendar_Table'[Date])
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(LY_Revenue),
+			        "NO DATA",
+			        FORMAT(LY_Revenue, "#,##0.00")
+			    )
+		lineageTag: 2519f11a-77ce-424e-b9dc-bafb886b8ac2
+
+	measure YOY_revenue% =
+			
+			VAR Current_Revenue = [total_revenue]
+			VAR Previous_Revenue =
+			    CALCULATE(
+			        [total_revenue],
+			        SAMEPERIODLASTYEAR('Calendar_Table'[Date])
+			    )
+			VAR YOY =
+			    DIVIDE(
+			        Current_Revenue - Previous_Revenue,
+			        Previous_Revenue
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(Current_Revenue) ||
+			        ISBLANK(Previous_Revenue) ||
+			        Previous_Revenue = 0,
+			        "NO DATA",
+			        FORMAT(YOY, "0.00%")
+			    )
+		lineageTag: c34830c4-0b9b-47f2-8304-0699b0d39c31
+
+	measure Paying_Students = DISTINCTCOUNT( Payments_Table[Student_ID])
+		formatString: 0
+		lineageTag: ba607062-9797-42b2-aef7-a5b5d2ddfee9
+
+	measure Avg_Revenue_perStudent = DIVIDE( [total_revenue], [Paying_Students])
+		lineageTag: 5fdec07d-7a9f-434e-90ac-00b84796bc6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Study_Minutes = SUM(Quiz_Results_Table[Study_Minutes])
+		formatString: 0
+		lineageTag: f0c0e4fb-4846-4b15-942e-b7085500db31
+
+	measure Total_Questions = SUM( Quiz_Results_Table[Questions_Attempted])
+		formatString: 0
+		lineageTag: a8063fef-8e7b-497f-8597-75e483584ac3
+
+	measure Total_Correct = SUM( Quiz_Results_Table[Correct_Answers])
+		formatString: 0
+		lineageTag: 30a614d9-7a82-4107-8bb5-686bff19e115
+
+	measure Accuracy% = DIVIDE( [Total_Correct], [Total_Questions])
+		lineageTag: 7e44d03f-270e-45c8-b5f3-33960b21828a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Accuracy LY' =
+			
+			VAR LY_Accuracy =
+			    CALCULATE(
+			        [Accuracy%],
+			        SAMEPERIODLASTYEAR('Calendar_Table'[Date])
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(LY_Accuracy),
+			        "NO DATA",
+			        FORMAT(LY_Accuracy, "0.00%")
+			    )
+		lineageTag: 25b8fc66-4844-4f50-9a49-7654e1455cb9
+
+	measure Accuracy_Change = [Accuracy%] - [Accuracy LY]
+		lineageTag: 173ed586-9153-4f4a-b9d5-9bfdfcf95031
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Students_Practising = DISTINCTCOUNT( Quiz_Results_Table[Student_ID])
+		formatString: 0
+		lineageTag: c78b52a5-f6b4-48a4-a35d-236521a6a78e
+
+	measure 'Avg Study Minutes per Student' =
+			
+			DIVIDE([Total_Study_Minutes],[Students_Practising])
+		lineageTag: 34d9ffd2-f092-4d0d-a478-0c44b73c97b8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Students' = DISTINCTCOUNT ( Students_Table[Student_ID])
+		formatString: 0
+		lineageTag: 4fe0f2c0-fcb6-4d47-bfed-89350695cda5
+
+	measure 'Paid Students' = CALCULATE ( [Total Students], Students_Table[Plan]= "Annual" || Students_Table[Plan] ="Monthly"|| Students_Table[Plan] ="Quarterly" )
+		formatString: 0
+		lineageTag: a3dd3a97-a2dd-4c82-9fa7-21375be8cfe7
+
+	measure 'Conversion %' = DIVIDE( [Paid Students],[Total Students])
+		lineageTag: c4c9eb93-f034-4e7d-a8f4-c00ef3a99616
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Students' =
+			
+			CALCULATE(
+			    [Total Students],
+			    USERELATIONSHIP( 'Calendar_Table'[Date], Students_Table[Signup_Date])
+			)
+		formatString: 0
+		lineageTag: fca78567-75e8-40cc-b9d0-c756c1a07849
+
+	measure 'Total Quiz Attempts' = COUNTROWS( Quiz_Results_Table)
+		formatString: 0
+		lineageTag: e1138e20-cb18-4506-8bde-2cbff0b62d44
+
+	measure 'Avg Revenue per Country' =
+			
+			AVERAGEX( VALUES(Students_Table[Country]), [total_revenue])
+		lineageTag: 9671964a-bd00-4f09-a341-0451c2ff5800
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Country Rank' =
+			
+			RANKX ( ALLSELECTED ( Students_Table[Country]), [total_revenue], , DESC, DENSE )
+		formatString: 0
+		lineageTag: d16119c5-f5f1-42a8-8dff-24ca04ae1a1f
+
+	measure 'Revenue Top N' =
+			
+			IF ( [Country Rank] <= [Top Rank Value], [total_revenue])
+		formatString: 0
+		lineageTag: 1f3fe2d4-a557-42a4-b9c8-dd8e50750388
+
+	measure 'Accuracy LY Numeric' =
+			
+			CALCULATE(
+			    [Accuracy%],
+			    SAMEPERIODLASTYEAR('Calendar_Table'[Date])
+			)
+		lineageTag: 541784ff-c761-4ffa-aa65-81ba5122f92c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: c4128a99-038e-48cb-b1a8-111cb4599d6e
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Calculated_Table (2)' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

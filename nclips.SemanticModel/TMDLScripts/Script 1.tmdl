@@ -1,0 +1,496 @@
+createOrReplace
+
+	model Model
+		culture: en-US
+		defaultPowerBIDataSourceVersion: powerBI_V3
+		sourceQueryCulture: en-IN
+		valueFilterBehavior: independent
+		dataAccessOptions
+			legacyRedirects
+			returnErrorValuesAsNull
+
+		table Calendar_Table
+			lineageTag: 386d073d-3ba2-4631-9e37-f9a152c2b38b
+			dataCategory: Time
+
+			column Date
+				dataType: dateTime
+				isKey
+				formatString: General Date
+				lineageTag: fd8be986-d2c9-4333-b698-79809bf0a9d1
+				summarizeBy: none
+				sourceColumn: Date
+
+				annotation SummarizationSetBy = Automatic
+
+			column Year
+				dataType: int64
+				formatString: 0
+				lineageTag: 1dd7e135-61fc-4449-804a-d360df9642bd
+				summarizeBy: none
+				sourceColumn: Year
+
+				annotation SummarizationSetBy = User
+
+			column Month
+				dataType: string
+				lineageTag: 47cb2342-c0fb-4ed0-a457-ace46fb12957
+				summarizeBy: none
+				sourceColumn: Month
+				sortByColumn: Month_No
+
+				changedProperty = SortByColumn
+
+				annotation SummarizationSetBy = Automatic
+
+			column Month_No
+				dataType: int64
+				formatString: 0
+				lineageTag: 885b5a36-0c48-4dfe-8d6f-c8f201a5f77f
+				summarizeBy: none
+				sourceColumn: Month_No
+
+				annotation SummarizationSetBy = User
+
+			partition Calendar_Table = m
+				mode: import
+				source =
+						let
+						    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+						    Calendar_Table_Table = Source{[Item="Calendar_Table",Kind="Table"]}[Data],
+						    #"Changed Type" = Table.TransformColumnTypes(Calendar_Table_Table,{{"Date", type datetime}, {"Year", Int64.Type}, {"Month", type text}, {"Month_No", Int64.Type}})
+						in
+						    #"Changed Type"
+
+			annotation PBI_ResultType = Table
+
+			annotation PBI_NavigationStepName = Navigation
+
+		table Payments_Table
+			lineageTag: 3f8eb817-35f6-491f-9ef3-959da7d319c6
+
+			column Payment_ID
+				dataType: string
+				lineageTag: b654d17a-1b3b-4767-b824-cb0016e4e6e1
+				summarizeBy: none
+				sourceColumn: Payment_ID
+
+				annotation SummarizationSetBy = Automatic
+
+			column Student_ID
+				dataType: string
+				lineageTag: 6034b5bc-78c0-420b-a6dc-34969b3c4fb8
+				summarizeBy: none
+				sourceColumn: Student_ID
+
+				annotation SummarizationSetBy = Automatic
+
+			column Payment_Date
+				dataType: dateTime
+				formatString: General Date
+				lineageTag: ca1a0067-1b66-4eea-945e-932653ee151e
+				summarizeBy: none
+				sourceColumn: Payment_Date
+
+				annotation SummarizationSetBy = Automatic
+
+			column Amount
+				dataType: int64
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: a44c4a34-2bc9-4c45-a5ff-79c0b8e63a72
+				summarizeBy: sum
+				sourceColumn: Amount
+
+				annotation SummarizationSetBy = Automatic
+
+			column Payment_Mode
+				dataType: string
+				lineageTag: 3c12425a-befc-4444-8b8c-3406f4d13212
+				summarizeBy: none
+				sourceColumn: Payment_Mode
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Payments_Table = m
+				mode: import
+				source =
+						let
+						    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+						    Payments_Table_Table = Source{[Item="Payments_Table",Kind="Table"]}[Data],
+						    #"Changed Type" = Table.TransformColumnTypes(Payments_Table_Table,{{"Payment_ID", type text}, {"Student_ID", type text}, {"Payment_Date", type datetime}, {"Amount", Int64.Type}, {"Payment_Mode", type text}})
+						in
+						    #"Changed Type"
+
+			annotation PBI_ResultType = Table
+
+			annotation PBI_NavigationStepName = Navigation
+
+		table Quiz_Results_Table
+			lineageTag: b67472af-eaa9-4c42-92ea-4e04123fff7a
+
+			column Attempt_ID
+				dataType: string
+				lineageTag: f9d5f5e1-8c1c-44af-9f9f-ad85f29902f3
+				summarizeBy: none
+				sourceColumn: Attempt_ID
+
+				annotation SummarizationSetBy = Automatic
+
+			column Student_ID
+				dataType: string
+				lineageTag: 6d05623c-2887-473f-b48f-11df2c845b52
+				summarizeBy: none
+				sourceColumn: Student_ID
+
+				annotation SummarizationSetBy = Automatic
+
+			column Quiz_Date
+				dataType: dateTime
+				formatString: General Date
+				lineageTag: 5df3f893-26ab-4252-8cb9-429a87250e7a
+				summarizeBy: none
+				sourceColumn: Quiz_Date
+
+				annotation SummarizationSetBy = Automatic
+
+			column Topic
+				dataType: string
+				lineageTag: b8794688-3685-4497-9d4f-196cb0d41af6
+				summarizeBy: none
+				sourceColumn: Topic
+
+				annotation SummarizationSetBy = Automatic
+
+			column Question_Type
+				dataType: string
+				lineageTag: 11b90683-655f-498e-8e77-f799851b79d5
+				summarizeBy: none
+				sourceColumn: Question_Type
+
+				annotation SummarizationSetBy = Automatic
+
+			column Questions_Attempted
+				dataType: int64
+				formatString: 0
+				lineageTag: c88be997-1e7b-4c8c-98ff-faa664904820
+				summarizeBy: sum
+				sourceColumn: Questions_Attempted
+
+				annotation SummarizationSetBy = Automatic
+
+			column Correct_Answers
+				dataType: int64
+				formatString: 0
+				lineageTag: f9338a4e-964b-42d3-be18-29ad6415a28d
+				summarizeBy: sum
+				sourceColumn: Correct_Answers
+
+				annotation SummarizationSetBy = Automatic
+
+			column Study_Minutes
+				dataType: int64
+				formatString: 0
+				lineageTag: ac540b30-839d-43c8-a6c2-5aa52e6c1f74
+				summarizeBy: sum
+				sourceColumn: Study_Minutes
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Quiz_Results_Table = m
+				mode: import
+				source =
+						let
+						    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+						    Quiz_Results_Table_Table = Source{[Item="Quiz_Results_Table",Kind="Table"]}[Data],
+						    #"Changed Type" = Table.TransformColumnTypes(Quiz_Results_Table_Table,{{"Attempt_ID", type text}, {"Student_ID", type text}, {"Quiz_Date", type datetime}, {"Topic", type text}, {"Question_Type", type text}, {"Questions_Attempted", Int64.Type}, {"Correct_Answers", Int64.Type}, {"Study_Minutes", Int64.Type}})
+						in
+						    #"Changed Type"
+
+			annotation PBI_ResultType = Table
+
+			annotation PBI_NavigationStepName = Navigation
+
+		table Students_Table
+			lineageTag: 795347a7-e3ae-4e7e-aa30-f5cdb8d1bcb4
+
+			column Student_ID
+				dataType: string
+				lineageTag: eac88e76-8c0c-49f3-ac8c-b245649639b2
+				summarizeBy: none
+				sourceColumn: Student_ID
+
+				annotation SummarizationSetBy = Automatic
+
+			column Student_Name
+				dataType: string
+				lineageTag: 806149c4-cb89-4166-9b37-c93b65da5865
+				summarizeBy: none
+				sourceColumn: Student_Name
+
+				annotation SummarizationSetBy = Automatic
+
+			column Country
+				dataType: string
+				lineageTag: 88907bc6-1e19-4fdc-933f-afed5d42a834
+				dataCategory: Country
+				summarizeBy: none
+				sourceColumn: Country
+
+				annotation SummarizationSetBy = Automatic
+
+			column Region
+				dataType: string
+				lineageTag: 91569589-dcbf-439b-a07e-76c8f6694320
+				summarizeBy: none
+				sourceColumn: Region
+
+				annotation SummarizationSetBy = Automatic
+
+			column Plan
+				dataType: string
+				lineageTag: e9c0e24f-ba89-4260-9877-42d8be059de7
+				summarizeBy: none
+				sourceColumn: Plan
+
+				annotation SummarizationSetBy = Automatic
+
+			column Signup_Date
+				dataType: dateTime
+				formatString: General Date
+				lineageTag: c023ce8f-e0bf-4df9-b9f8-f4034dea6a7d
+				summarizeBy: none
+				sourceColumn: Signup_Date
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Students_Table = m
+				mode: import
+				source =
+						let
+						    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+						    Students_Table_Table = Source{[Item="Students_Table",Kind="Table"]}[Data],
+						    #"Changed Type" = Table.TransformColumnTypes(Students_Table_Table,{{"Student_ID", type text}, {"Student_Name", type text}, {"Country", type text}, {"Region", type text}, {"Plan", type text}, {"Signup_Date", type datetime}})
+						in
+						    #"Changed Type"
+
+			annotation PBI_ResultType = Table
+
+			annotation PBI_NavigationStepName = Navigation
+
+		table 'Calculated_Table (2)'
+			lineageTag: 5e725f2e-a0dc-4858-bfdc-2c38621a8b3c
+
+			measure total_revenue = SUM(Payments_Table[Amount])
+				formatString: 0
+				lineageTag: b3ff7022-029c-4df5-b081-32319953e423
+
+			measure 'Revenue LY' =
+					
+					VAR LY_Revenue =
+					    CALCULATE(
+					        [total_revenue],
+					        SAMEPERIODLASTYEAR('Calendar_Table'[Date])
+					    )
+					RETURN
+					    IF(
+					        ISBLANK(LY_Revenue),
+					        "No Data",
+					        FORMAT(LY_Revenue, "#,##0.00")
+					    )
+				lineageTag: 2519f11a-77ce-424e-b9dc-bafb886b8ac2
+
+			measure YOY_revenue% =
+					
+					VAR yoy_ =
+					    DIVIDE(
+					        [total_revenue] - [Revenue LY],
+					        [Revenue LY]
+					    )
+					RETURN
+					    IF(
+					        NOT ISBLANK([total_revenue]) &&
+					        NOT ISBLANK([Revenue LY]),
+					        yoy_,
+					        BLANK()
+					    )
+				lineageTag: c34830c4-0b9b-47f2-8304-0699b0d39c31
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure Paying_Students = DISTINCTCOUNT( Payments_Table[Student_ID])
+				formatString: 0
+				lineageTag: ba607062-9797-42b2-aef7-a5b5d2ddfee9
+
+			measure Avg_Revenue_perStudent = DIVIDE( [total_revenue], [Paying_Students])
+				lineageTag: 5fdec07d-7a9f-434e-90ac-00b84796bc6a
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure Total_Study_Minutes = SUM(Quiz_Results_Table[Study_Minutes])
+				formatString: 0
+				lineageTag: f0c0e4fb-4846-4b15-942e-b7085500db31
+
+			measure Total_Questions = SUM( Quiz_Results_Table[Questions_Attempted])
+				formatString: 0
+				lineageTag: a8063fef-8e7b-497f-8597-75e483584ac3
+
+			measure Total_Correct = SUM( Quiz_Results_Table[Correct_Answers])
+				formatString: 0
+				lineageTag: 30a614d9-7a82-4107-8bb5-686bff19e115
+
+			measure Accuracy% = DIVIDE( [Total_Correct], [Total_Questions])
+				lineageTag: 7e44d03f-270e-45c8-b5f3-33960b21828a
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure 'Accuracy LY' =
+					
+					CALCULATE( [Accuracy%], SAMEPERIODLASTYEAR( 'Calendar_Table'[Date]))
+				lineageTag: 25b8fc66-4844-4f50-9a49-7654e1455cb9
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure Accuracy_Change = [Accuracy%] - [Accuracy LY]
+				lineageTag: 173ed586-9153-4f4a-b9d5-9bfdfcf95031
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure Students_Practising = DISTINCTCOUNT( Quiz_Results_Table[Student_ID])
+				formatString: 0
+				lineageTag: c78b52a5-f6b4-48a4-a35d-236521a6a78e
+
+			measure 'Avg Study Minutes per Student' =
+					
+					DIVIDE([Total_Study_Minutes],[Students_Practising])
+				lineageTag: 34d9ffd2-f092-4d0d-a478-0c44b73c97b8
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure 'Total Students' = DISTINCTCOUNT ( Students_Table[Student_ID])
+				formatString: 0
+				lineageTag: 4fe0f2c0-fcb6-4d47-bfed-89350695cda5
+
+			measure 'Paid Students' = CALCULATE ( [Total Students], Students_Table[Plan]= "Paid" )
+				formatString: 0
+				lineageTag: a3dd3a97-a2dd-4c82-9fa7-21375be8cfe7
+
+			measure 'Conversion %' = DIVIDE( [Paid Students],[Total Students])
+				lineageTag: c4c9eb93-f034-4e7d-a8f4-c00ef3a99616
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure 'New Students' =
+					
+					CALCULATE(
+					    [Total Students],
+					    USERELATIONSHIP( 'Calendar_Table'[Date], Students_Table[Signup_Date])
+					)
+				formatString: 0
+				lineageTag: fca78567-75e8-40cc-b9d0-c756c1a07849
+
+			measure 'Total Quiz Attempts' = COUNTROWS( Quiz_Results_Table)
+				formatString: 0
+				lineageTag: e1138e20-cb18-4506-8bde-2cbff0b62d44
+
+			measure 'Avg Revenue per Country' =
+					
+					AVERAGEX( VALUES(Students_Table[Country]), [total_revenue])
+				lineageTag: 9671964a-bd00-4f09-a341-0451c2ff5800
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			measure 'Country Rank' =
+					
+					RANKX ( ALLSELECTED ( Students_Table[Country]), [total_revenue], , DESC, DENSE )
+				formatString: 0
+				lineageTag: d16119c5-f5f1-42a8-8dff-24ca04ae1a1f
+
+			measure 'Revenue Top N' =
+					
+					IF ( [Country Rank] <= [Top Rank Value], [total_revenue])
+				formatString: 0
+				lineageTag: 1f3fe2d4-a557-42a4-b9c8-dd8e50750388
+
+			column Column1
+				dataType: string
+				isHidden
+				lineageTag: c4128a99-038e-48cb-b1a8-111cb4599d6e
+				summarizeBy: none
+				sourceColumn: Column1
+
+				changedProperty = IsHidden
+
+				annotation SummarizationSetBy = Automatic
+
+			partition 'Calculated_Table (2)' = m
+				mode: import
+				source =
+						let
+						    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+						    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+						in
+						    #"Changed Type"
+
+			annotation PBI_ResultType = Table
+
+		table 'Top Rank'
+			lineageTag: 49a4efc8-e0bd-4ca0-babb-de2866c1b904
+
+			measure 'Top Rank Value' = SELECTEDVALUE('Top Rank'[Top Rank], 6)
+				formatString: 0
+				lineageTag: 9f9ea39f-93c2-414c-ae2e-5ee0e7fff2c4
+
+			column 'Top Rank'
+				formatString: 0
+				lineageTag: 5725b6d5-2963-4d0f-8211-1496c3b5526d
+				summarizeBy: none
+				sourceColumn: [Value]
+
+				extendedProperty ParameterMetadata = {"version":0}
+
+				annotation SummarizationSetBy = User
+
+			partition 'Top Rank' = calculated
+				mode: import
+				source = GENERATESERIES(1, 12, 1)
+
+			annotation PBI_Id = 531765447ad941c48e5989673ae8eff3
+
+		relationship AutoDetected_4b58c62d-d6b3-4d15-8f47-fdf4479ab9a3
+			fromColumn: Payments_Table.Student_ID
+			toColumn: Students_Table.Student_ID
+
+		relationship AutoDetected_d785ec14-809d-4fad-ac65-a55c752c09d0
+			fromColumn: Quiz_Results_Table.Student_ID
+			toColumn: Students_Table.Student_ID
+
+		relationship 1beaf8b5-4d8c-fe84-0723-437265d697d9
+			fromColumn: Quiz_Results_Table.Quiz_Date
+			toColumn: Calendar_Table.Date
+
+		relationship 1004ce36-3c59-adc6-65a0-7caa3c88bca0
+			fromColumn: Payments_Table.Payment_Date
+			toColumn: Calendar_Table.Date
+
+		relationship d1c8b4e7-6626-ad21-7895-1674d0f91569
+			isActive: false
+			fromColumn: Students_Table.Signup_Date
+			toColumn: Calendar_Table.Date
+
+		cultureInfo en-US
+
+		expression Calculated_Table =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+			lineageTag: 416d3f72-5fd3-4b97-8147-2cee994ecab8
+
+			annotation PBI_ResultType = Table
+
+		annotation __PBI_TimeIntelligenceEnabled = 1
+
+		annotation PBI_QueryOrder = ["Calendar_Table","Payments_Table","Quiz_Results_Table","Students_Table","Calculated_Table","Calculated_Table (2)"]
+

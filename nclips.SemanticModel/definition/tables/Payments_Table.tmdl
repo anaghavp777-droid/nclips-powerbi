@@ -1,0 +1,59 @@
+table Payments_Table
+	lineageTag: 3f8eb817-35f6-491f-9ef3-959da7d319c6
+
+	column Payment_ID
+		dataType: string
+		lineageTag: b654d17a-1b3b-4767-b824-cb0016e4e6e1
+		summarizeBy: none
+		sourceColumn: Payment_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Student_ID
+		dataType: string
+		lineageTag: 6034b5bc-78c0-420b-a6dc-34969b3c4fb8
+		summarizeBy: none
+		sourceColumn: Student_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Payment_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ca1a0067-1b66-4eea-945e-932653ee151e
+		summarizeBy: none
+		sourceColumn: Payment_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: int64
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a44c4a34-2bc9-4c45-a5ff-79c0b8e63a72
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Payment_Mode
+		dataType: string
+		lineageTag: 3c12425a-befc-4444-8b8c-3406f4d13212
+		summarizeBy: none
+		sourceColumn: Payment_Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Payments_Table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\ANAGHA\Downloads\NCLIPS_Sample_Data_Tables.xlsx"), null, true),
+				    Payments_Table_Table = Source{[Item="Payments_Table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Payments_Table_Table,{{"Payment_ID", type text}, {"Student_ID", type text}, {"Payment_Date", type datetime}, {"Amount", Int64.Type}, {"Payment_Mode", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
